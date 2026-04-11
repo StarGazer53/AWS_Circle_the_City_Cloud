@@ -1,22 +1,28 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "nurse")
 public class Nurse
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "full_name")
     private String fullName;
+
     private String email;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
     private String department;
+
+    @Column(name = "image_url")
     private String imageUrl;
+
     private boolean available;
 
     public Nurse()

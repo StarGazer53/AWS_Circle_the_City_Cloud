@@ -1,10 +1,9 @@
 package com.example.demo.repository;
 
-import java.util.List;
-
+import com.example.demo.model.Nurse;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.demo.model.Nurse;
+import java.util.List;
 
 public interface NurseRepository extends JpaRepository<Nurse, Long>
 {

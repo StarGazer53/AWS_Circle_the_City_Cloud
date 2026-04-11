@@ -1,134 +1,182 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${pageTitle}">Immediate Help</title>
     <style>
         body {
+            background-color: #efefef;
             font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
             margin: 0;
-            padding: 0;
-        }
-
-        .top-bar {
-            background-color: #1a73e8;
-            color: white;
-            padding: 18px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .top-bar h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .top-bar a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 8px 14px;
-            border-radius: 8px;
-        }
-
-        .top-bar a:hover {
-            background-color: rgba(255, 255, 255, 0.25);
+            padding: 50px 40px;
         }
 
         .container {
-            max-width: 800px;
-            margin: 40px auto;
+            max-width: 950px;
+            margin: auto;
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
         }
 
-        h2 {
-            margin-top: 0;
-            margin-bottom: 8px;
-            color: #222;
+        h1 {
+            text-align: center;
+            font-size: 56px;
+            margin-bottom: 15px;
+            color: #1f1f1f;
         }
 
         .subtitle {
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        .patient-box {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 18px;
-            background-color: #fafafa;
-            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 40px;
+            color: #555;
         }
 
         .nurse-card {
-            border: 1px solid #d9e2f2;
-            background-color: #eef4ff;
-            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background-color: #f8f9fb;
+            border: 1px solid #ddd;
+            border-radius: 12px;
             padding: 25px;
+            margin-bottom: 30px;
         }
 
-        .nurse-card p {
-            margin: 8px 0;
+        .nurse-card img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            background-color: #dbe7ff;
+            border: 1px solid #c3d3f7;
+        }
+
+        .nurse-info {
+            font-size: 24px;
+            line-height: 1.8;
             color: #222;
         }
 
-        .cancel-btn {
-            display: inline-block;
-            margin-top: 20px;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            background-color: #e0e0e0;
-            color: #333;
-            text-decoration: none;
+        .busy-box {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            background-color: #fff4f4;
+            border: 1px solid #e7bcbc;
+            text-align: center;
         }
 
-        .cancel-btn:hover {
-            background-color: #cfcfcf;
+        .busy-box p {
+            font-size: 22px;
+            color: #a12222;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        button,
+        .link-button,
+        .back-link {
+            display: inline-block;
+            padding: 14px 24px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .primary-btn {
+            background-color: #2d72d9;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background-color: #1f5fbe;
+        }
+
+        .secondary-btn {
+            background-color: #d9d9d9;
+            color: #222;
+        }
+
+        .secondary-btn:hover {
+            background-color: #c8c8c8;
+        }
+
+        .back-wrapper {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .back-link {
+            background-color: #f0f0f0;
+            color: #1f1f1f;
+        }
+
+        .back-link:hover {
+            background-color: #dfdfdf;
         }
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <h1>Nurse Connect</h1>
-        <a th:href="@{/}">Home</a>
-    </div>
-
     <div class="container">
-        <h2 th:text="${pageTitle}">Immediate Help</h2>
-        <p class="subtitle" th:text="${subtitle}">Connecting you immediately to the first available nurse.</p>
-
-        <div class="patient-box" th:if="${patientFirstName != null}">
-            <p>
-                <strong>Patient:</strong>
-                <span th:text="${patientFirstName}">First</span>
-                <span th:text="${patientLastName}">Last</span>
-            </p>
-            <p>
-                <strong>Date of Birth:</strong>
-                <span th:text="${dob}">2000-01-01</span>
-            </p>
-        </div>
+        <h1 th:text="${pageTitle}">Immediate Help</h1>
+        <div class="subtitle" th:text="${subtitle}">Here is the first nurse available:</div>
 
         <div class="nurse-card">
-            <p><strong>Name:</strong> <span th:text="${nurse.fullName}">Nurse Name</span></p>
-            <p><strong>Email:</strong> <span th:text="${nurse.email}">nurse@example.com</span></p>
-            <p><strong>Phone:</strong> <span th:text="${nurse.phoneNumber}">(000) 000-0000</span></p>
-            <p><strong>Department:</strong> <span th:text="${nurse.department}">Department</span></p>
-            <p><strong>Available:</strong> <span th:text="${nurse.available} ? 'Yes' : 'No'">Yes</span></p>
+            <img th:src="${nurse.imageUrl}" alt="Nurse Photo">
+
+            <div class="nurse-info">
+                <div>
+                    <strong>Name:</strong>
+                    <span th:text="${nurse.fullName}">Nurse Name</span>
+                </div>
+                <div>
+                    <strong>Email:</strong>
+                    <span th:text="${nurse.email}">email@example.com</span>
+                </div>
+                <div>
+                    <strong>Phone:</strong>
+                    <span th:text="${nurse.phoneNumber}">(555) 555-5555</span>
+                </div>
+                <div>
+                    <strong>Department:</strong>
+                    <span th:text="${nurse.department}">Department</span>
+                </div>
+            </div>
         </div>
 
-        <a th:href="@{/}" class="cancel-btn">Back to Home</a>
+        <div class="busy-box" th:if="${busy}">
+            <p>
+                This assigned nurse is currently busy.
+                Would you like to leave a message or connect to the next available nurse?
+            </p>
+
+            <div class="button-row">
+                <form th:action="@{/next-available-nurse}" method="post">
+                    <button type="submit" class="primary-btn">Next Available Nurse</button>
+                </form>
+
+                <button type="button" class="secondary-btn"
+                        onclick="alert('Leave a message feature coming soon.')">
+                    Leave a Message
+                </button>
+            </div>
+        </div>
+
+        <div class="back-wrapper">
+            <a class="back-link" th:href="@{/}">Back to Home</a>
+        </div>
     </div>
 </body>
 </html>

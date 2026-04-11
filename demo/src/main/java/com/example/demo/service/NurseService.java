@@ -1,91 +1,73 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Nurse;
+import com.example.demo.model.Patient;
 import com.example.demo.repository.NurseRepository;
-import jakarta.annotation.PostConstruct;
+import com.example.demo.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class NurseService
 {
     private final NurseRepository nurseRepository;
+    private final PatientRepository patientRepository;
+    private final Random random = new Random();
 
-    public NurseService(NurseRepository nurseRepository)
+    public NurseService(NurseRepository nurseRepository, PatientRepository patientRepository)
     {
         this.nurseRepository = nurseRepository;
+        this.patientRepository = patientRepository;
     }
 
-    @PostConstruct
-    public void seedData()
+    public Patient findPatient(String firstName, String lastName, String dob)
     {
-        if (nurseRepository.count() == 0)
-        {
-            nurseRepository.save(new Nurse(
-                "Maria Gonzalez",
-                "maria.gonzalez@circlethecity.org",
-                "(602) 555-2048",
-                "Primary Care",
-                "/images/default-nurse.png",
-                true
-            ));
+        LocalDate parsedDob = LocalDate.parse(dob);
+        Optional<Patient> patient = patientRepository
+            .findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndDob(firstName, lastName, parsedDob);
 
-            nurseRepository.save(new Nurse(
-                "Jessica Ramirez",
-                "jessica.ramirez@circlethecity.org",
-                "(602) 555-1024",
-                "Care Coordination",
-                "/images/default-nurse.png",
-                true
-            ));
-
-            nurseRepository.save(new Nurse(
-                "Ashley Turner",
-                "ashley.turner@circlethecity.org",
-                "(602) 555-3388",
-                "Mobile Health Team",
-                "/images/default-nurse.png",
-                false
-            ));
-        }
+        return patient.orElse(null);
     }
 
-    public Nurse getFirstAvailableNurse()
+    public boolean isAssignedNurseBusy()
+    {
+        int chance = random.nextInt(100);
+        return chance < 40;
+    }
+
+    public Nurse getAssignedNurseForPatient(String firstName, String lastName, String dob)
+    {
+        Patient patient = findPatient(firstName, lastName, dob);
+
+        if (patient == null)
+        {
+            return null;
+        }
+
+        return patient.getAssignedNurse();
+    }
+
+    public Nurse getRandomAvailableNurse()
     {
         List<Nurse> availableNurses = nurseRepository.findByAvailableTrue();
 
-        if (!availableNurses.isEmpty())
+        if (availableNurses.isEmpty())
         {
-            return availableNurses.get(0);
+            return new Nurse(
+                "No Nurse Available",
+                "unavailable@circlethecity.org",
+                "N/A",
+                "N/A",
+                "/images/default-nurse.png",
+                false
+            );
         }
 
-        return new Nurse(
-            "No Nurse Available",
-            "unavailable@circlethecity.org",
-            "N/A",
-            "N/A",
-            "/images/default-nurse.png",
-            false
-        );
-    }
-
-    public Nurse findSpecificNurse(String firstName, String lastName, String dob)
-    {
-        List<Nurse> allNurses = nurseRepository.findAll();
-
-        if (!allNurses.isEmpty())
-        {
-            return allNurses.get(0);
-        }
-
-        return new Nurse(
-            "No Nurse Found",
-            "unavailable@circlethecity.org",
-            "N/A",
-            "N/A",
-            "/images/default-nurse.png",
-            false
-        );
+        int randomIndex = random.nextInt(availableNurses.size());
+        return availableNurses.get(randomIndex);
     }
 }

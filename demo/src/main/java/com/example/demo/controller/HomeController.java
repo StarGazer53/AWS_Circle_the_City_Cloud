@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Nurse;
+import com.example.demo.model.Patient;
+import com.example.demo.service.NurseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.example.demo.model.Nurse;
-import com.example.demo.service.NurseService;
 
 @Controller
 public class HomeController
@@ -38,14 +38,57 @@ public class HomeController
         @RequestParam("dob") String dob,
         Model model)
     {
-        Nurse nurse = nurseService.findSpecificNurse(firstName, lastName, dob);
+        Patient patient = nurseService.findPatient(firstName, lastName, dob);
 
-        model.addAttribute("pageTitle", "Specific Nurse");
-        model.addAttribute("subtitle", "Here is the nurse connected to the patient request.");
-        model.addAttribute("patientFirstName", firstName);
-        model.addAttribute("patientLastName", lastName);
+        if (patient == null)
+        {
+            model.addAttribute("pageTitle", "Patient Not Found");
+            model.addAttribute("subtitle", "No assigned nurse record was found for this patient.");
+            model.addAttribute("nurse", new Nurse(
+                "No Nurse Found",
+                "unavailable@circlethecity.org",
+                "N/A",
+                "N/A",
+                "/images/default-nurse.png",
+                false
+            ));
+
+            return "immediate-help";
+        }
+
+        Nurse assignedNurse = patient.getAssignedNurse();
+        boolean busy = nurseService.isAssignedNurseBusy();
+
+        if (!busy)
+        {
+            model.addAttribute("pageTitle", "Specific Nurse");
+            model.addAttribute("subtitle", "Assigned nurse found and available.");
+            model.addAttribute("nurse", assignedNurse);
+            model.addAttribute("busy", false);
+
+            return "immediate-help";
+        }
+
+        model.addAttribute("pageTitle", "Assigned Nurse Busy");
+        model.addAttribute("subtitle", "The assigned nurse is currently busy.");
+        model.addAttribute("nurse", assignedNurse);
+        model.addAttribute("busy", true);
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
         model.addAttribute("dob", dob);
+
+        return "immediate-help";
+    }
+
+    @PostMapping("/next-available-nurse")
+    public String nextAvailableNurse(Model model)
+    {
+        Nurse nurse = nurseService.getRandomAvailableNurse();
+
+        model.addAttribute("pageTitle", "Next Available Nurse");
+        model.addAttribute("subtitle", "Connected to the next available nurse.");
         model.addAttribute("nurse", nurse);
+        model.addAttribute("busy", false);
 
         return "immediate-help";
     }
@@ -53,11 +96,12 @@ public class HomeController
     @GetMapping("/immediate-help")
     public String immediateHelp(Model model)
     {
-        Nurse nurse = nurseService.getFirstAvailableNurse();
+        Nurse nurse = nurseService.getRandomAvailableNurse();
 
         model.addAttribute("pageTitle", "Immediate Help");
-        model.addAttribute("subtitle", "Here is the first nurse available:");
+        model.addAttribute("subtitle", "Here is a randomly available nurse:");
         model.addAttribute("nurse", nurse);
+        model.addAttribute("busy", false);
 
         return "immediate-help";
     }
