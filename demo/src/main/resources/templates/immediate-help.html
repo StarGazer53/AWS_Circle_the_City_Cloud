@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Immediate Help</title>
+    <title th:text="${pageTitle}">Immediate Help</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,19 +59,29 @@
             margin-bottom: 25px;
         }
 
-        .search-box {
-            border: 1px solid #d9e2f2;
-            background-color: #eef4ff;
+        .patient-box {
+            border: 1px solid #ddd;
             border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: #1a4f9c;
+            padding: 18px;
+            background-color: #fafafa;
             margin-bottom: 20px;
         }
 
+        .nurse-card {
+            border: 1px solid #d9e2f2;
+            background-color: #eef4ff;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .nurse-card p {
+            margin: 8px 0;
+            color: #222;
+        }
+
         .cancel-btn {
+            display: inline-block;
+            margin-top: 20px;
             border: none;
             padding: 12px 22px;
             border-radius: 8px;
@@ -80,6 +90,7 @@
             cursor: pointer;
             background-color: #e0e0e0;
             color: #333;
+            text-decoration: none;
         }
 
         .cancel-btn:hover {
@@ -90,18 +101,34 @@
 <body>
     <div class="top-bar">
         <h1>Nurse Connect</h1>
-        <a href="index.html">Home</a>
+        <a th:href="@{/}">Home</a>
     </div>
 
     <div class="container">
-        <h2>Connect to the First Available Nurse</h2>
-        <p class="subtitle">Connecting you immediately to the first available nurse</p>
+        <h2 th:text="${pageTitle}">Immediate Help</h2>
+        <p class="subtitle" th:text="${subtitle}">Connecting you immediately to the first available nurse.</p>
 
-        <div class="search-box">
-            Searching for the first available nurse
+        <div class="patient-box" th:if="${patientFirstName != null}">
+            <p>
+                <strong>Patient:</strong>
+                <span th:text="${patientFirstName}">First</span>
+                <span th:text="${patientLastName}">Last</span>
+            </p>
+            <p>
+                <strong>Date of Birth:</strong>
+                <span th:text="${dob}">2000-01-01</span>
+            </p>
         </div>
 
-        <button class="cancel-btn" onclick="window.location.href='index.html'">Cancel</button>
+        <div class="nurse-card">
+            <p><strong>Name:</strong> <span th:text="${nurse.fullName}">Nurse Name</span></p>
+            <p><strong>Email:</strong> <span th:text="${nurse.email}">nurse@example.com</span></p>
+            <p><strong>Phone:</strong> <span th:text="${nurse.phoneNumber}">(000) 000-0000</span></p>
+            <p><strong>Department:</strong> <span th:text="${nurse.department}">Department</span></p>
+            <p><strong>Available:</strong> <span th:text="${nurse.available} ? 'Yes' : 'No'">Yes</span></p>
+        </div>
+
+        <a th:href="@{/}" class="cancel-btn">Back to Home</a>
     </div>
 </body>
 </html>

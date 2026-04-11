@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,33 +31,6 @@
             margin-top: 0;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 25px;
-        }
-
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f0f2f5;
-        }
-
-        tr:nth-child(even) {
-            background-color: #fafafa;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            background-color: #e8f0fe;
-            font-size: 12px;
-        }
         .link-button {
             display: inline-block;
             background-color: #1a73e8;
@@ -66,16 +41,18 @@
             font-weight: bold;
             margin-top: 10px;
         }
+
         .link-button:hover {
-        background-color: #155ab6;
+            background-color: #155ab6;
         }
+
         .option-box {
-        background: #f9fafb;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 20px;
-    }
+            background: #f9fafb;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -84,13 +61,13 @@
         <p>Aligning healthcare system capabilities with scalable, cost-effective AWS and cloud software.</p>
 
         <div class="option-box">
-            <a href="specific_nurse.html" class="link-button">Specific Nurse</a>
-            <p>Connect to a specific nurse, receiving the patient's first name, last name, and date of birth.</p>
-            <p>If the nurse isn't free, you'll be asked to leave a message or try the next available nurse.</p>
+            <a th:href="@{/specific-nurse}" class="link-button">Specific Nurse</a>
+            <p>Connect to a specific nurse, receiving the patient’s first name, last name, and date of birth.</p>
+            <p>If the nurse isn’t free, the workflow can later be extended to offer voicemail, callback routing, or the next available nurse.</p>
         </div>
 
         <div class="option-box">
-            <a href="immediate_help.html" class="link-button">Immediate Help</a>
+            <a th:href="@{/immediate-help}" class="link-button">Immediate Help</a>
             <p>Connect immediately to the first available nurse.</p>
         </div>
     </div>

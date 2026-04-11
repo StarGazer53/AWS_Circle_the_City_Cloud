@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,6 +103,8 @@
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .connect-btn {
@@ -127,7 +129,7 @@
 <body>
     <div class="top-bar">
         <h1>Nurse Connect</h1>
-        <a href="index.html">Home</a>
+        <a th:href="@{/}">Home</a>
     </div>
 
     <div class="container">
@@ -137,19 +139,21 @@
         <div class="form-box">
             <p>Enter patient information to connect with a specific nurse.</p>
 
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" placeholder="Enter first name">
+            <form th:action="@{/connect-specific-nurse}" method="post">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
 
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" placeholder="Enter last name">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
 
-            <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" name="dob">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob" required>
 
-            <div class="button-row">
-                <button class="connect-btn">Connect</button>
-                <button class="cancel-btn" onclick="window.location.href='index.html'">Cancel</button>
-            </div>
+                <div class="button-row">
+                    <button type="submit" class="connect-btn">Connect</button>
+                    <a th:href="@{/}" class="cancel-btn">Cancel</a>
+                </div>
+            </form>
         </div>
     </div>
 </body>
