@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specific Nurse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            background-color: #1a73e8;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 8px 14px;
+            border-radius: 8px;
+        }
+
+        .top-bar a:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .form-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            background-color: #fafafa;
+        }
+
+        .form-box p {
+            margin-top: 0;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .connect-btn,
+        .cancel-btn {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .connect-btn {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        .connect-btn:hover {
+            background-color: #155ab6;
+        }
+
+        .cancel-btn {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .cancel-btn:hover {
+            background-color: #cfcfcf;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <h1>Nurse Connect</h1>
+        <a href="index.html">Home</a>
+    </div>
+
+    <div class="container">
+        <h2>Specific Nurse</h2>
+        <p class="subtitle">Connect to a specific nurse</p>
+
+        <div class="form-box">
+            <p>Enter patient information to connect with a specific nurse.</p>
+
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="Enter first name">
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Enter last name">
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob">
+
+            <div class="button-row">
+                <button class="connect-btn">Connect</button>
+                <button class="cancel-btn" onclick="window.location.href='index.html'">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

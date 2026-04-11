@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Circle the City Dashboard</title>
+    <title></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,31 +56,43 @@
             background-color: #e8f0fe;
             font-size: 12px;
         }
+        .link-button {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .link-button:hover {
+        background-color: #155ab6;
+        }
+        .option-box {
+        background: #f9fafb;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+    }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 th:text="${title}">Circle the City Callback Queue</h1>
-        <p th:text="${subtitle}">Cloud-based patient communication demo</p>
+        <h1>Home Page</h1>
+        <p>Aligning healthcare system capabilities with scalable, cost-effective AWS and cloud software.</p>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Patient Name</th>
-                    <th>Callback Number</th>
-                    <th>Request Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="request : ${requests}">
-                    <td th:text="${request.patientName}">Patient Name</td>
-                    <td th:text="${request.callbackNumber}">Phone Number</td>
-                    <td>
-                        <span class="tag" th:text="${request.requestType}">Request Type</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="option-box">
+            <a href="specific_nurse.html" class="link-button">Specific Nurse</a>
+            <p>Connect to a specific nurse, receiving the patient's first name, last name, and date of birth.</p>
+            <p>If the nurse isn't free, you'll be asked to leave a message or try the next available nurse.</p>
+        </div>
+
+        <div class="option-box">
+            <a href="immediate_help.html" class="link-button">Immediate Help</a>
+            <p>Connect immediately to the first available nurse.</p>
+        </div>
     </div>
 </body>
 </html>
