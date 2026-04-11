@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Leave a Message</title>
+    <style>
+        body {
+            background-color: #efefef;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 50px 40px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 22px;
+            color: #555;
+            margin-bottom: 35px;
+        }
+
+        label {
+            display: block;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 1px solid #bbb;
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .button-row {
+            margin-top: 30px;
+            display: flex;
+            gap: 14px;
+        }
+
+        button, a {
+            padding: 14px 22px;
+            border-radius: 10px;
+            border: none;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            background-color: #2d72d9;
+            color: white;
+        }
+
+        .secondary-btn {
+            background-color: #d9d9d9;
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Leave a Message</h1>
+        <p>Please leave a short message for the nurse.</p>
+
+        <form th:action="@{/submit-message}" method="post">
+            <input type="hidden" name="firstName" th:value="${firstName}">
+            <input type="hidden" name="lastName" th:value="${lastName}">
+            <input type="hidden" name="dob" th:value="${dob}">
+            <input type="hidden" name="nurseId" th:value="${nurseId}">
+
+            <label for="messageText">Message</label>
+            <textarea id="messageText" name="messageText" required></textarea>
+
+            <div class="button-row">
+                <button type="submit" class="primary-btn">Submit Message</button>
+                <a th:href="@{/}" class="secondary-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

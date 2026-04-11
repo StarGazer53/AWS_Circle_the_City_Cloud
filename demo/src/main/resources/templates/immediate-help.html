@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${pageTitle}">Immediate Help</title>
+
     <style>
         body {
             background-color: #efefef;
@@ -21,50 +22,50 @@
 
         h1 {
             text-align: center;
-            font-size: 56px;
-            margin-bottom: 15px;
-            color: #1f1f1f;
+            font-size: 52px;
+            margin-bottom: 10px;
         }
 
         .subtitle {
             text-align: center;
-            font-size: 24px;
-            margin-bottom: 40px;
+            font-size: 22px;
             color: #555;
+            margin-bottom: 40px;
         }
 
         .nurse-card {
             display: flex;
-            align-items: center;
             gap: 30px;
-            background-color: #f8f9fb;
-            border: 1px solid #ddd;
+            align-items: center;
+            background: #f8f9fb;
             border-radius: 12px;
             padding: 25px;
-            margin-bottom: 30px;
+            border: 1px solid #ddd;
         }
 
         .nurse-card img {
-            width: 180px;
-            height: 180px;
+            width: 160px;
+            height: 160px;
             object-fit: cover;
             border-radius: 12px;
             background-color: #dbe7ff;
-            border: 1px solid #c3d3f7;
         }
 
         .nurse-info {
-            font-size: 24px;
+            font-size: 22px;
             line-height: 1.8;
+        }
+
+        .nurse-info strong {
             color: #222;
         }
 
         .busy-box {
             margin-top: 30px;
             padding: 25px;
-            border-radius: 12px;
             background-color: #fff4f4;
             border: 1px solid #e7bcbc;
+            border-radius: 12px;
             text-align: center;
         }
 
@@ -72,7 +73,6 @@
             font-size: 22px;
             color: #a12222;
             margin-bottom: 25px;
-            line-height: 1.5;
         }
 
         .button-row {
@@ -82,17 +82,14 @@
             flex-wrap: wrap;
         }
 
-        button,
-        .link-button,
-        .back-link {
-            display: inline-block;
-            padding: 14px 24px;
-            font-size: 18px;
+        button, a {
+            padding: 14px 22px;
             border-radius: 10px;
             border: none;
-            text-decoration: none;
-            cursor: pointer;
+            font-size: 18px;
             font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .primary-btn {
@@ -115,68 +112,71 @@
 
         .back-wrapper {
             text-align: center;
-            margin-top: 35px;
+            margin-top: 40px;
         }
 
         .back-link {
             background-color: #f0f0f0;
-            color: #1f1f1f;
-        }
-
-        .back-link:hover {
-            background-color: #dfdfdf;
+            color: #222;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1 th:text="${pageTitle}">Immediate Help</h1>
-        <div class="subtitle" th:text="${subtitle}">Here is the first nurse available:</div>
 
-        <div class="nurse-card">
-            <img th:src="${nurse.imageUrl}" alt="Nurse Photo">
+<div class="container">
 
-            <div class="nurse-info">
-                <div>
-                    <strong>Name:</strong>
-                    <span th:text="${nurse.fullName}">Nurse Name</span>
-                </div>
-                <div>
-                    <strong>Email:</strong>
-                    <span th:text="${nurse.email}">email@example.com</span>
-                </div>
-                <div>
-                    <strong>Phone:</strong>
-                    <span th:text="${nurse.phoneNumber}">(555) 555-5555</span>
-                </div>
-                <div>
-                    <strong>Department:</strong>
-                    <span th:text="${nurse.department}">Department</span>
-                </div>
-            </div>
-        </div>
+    <h1 th:text="${pageTitle}">Immediate Help</h1>
+    <div class="subtitle" th:text="${subtitle}">
+        Here is the first available nurse:
+    </div>
 
-        <div class="busy-box" th:if="${busy}">
-            <p>
-                This assigned nurse is currently busy.
-                Would you like to leave a message or connect to the next available nurse?
-            </p>
+    <div class="nurse-card">
+        <img th:src="${nurse.imageUrl}" alt="Nurse Photo">
 
-            <div class="button-row">
-                <form th:action="@{/next-available-nurse}" method="post">
-                    <button type="submit" class="primary-btn">Next Available Nurse</button>
-                </form>
-
-                <button type="button" class="secondary-btn"
-                        onclick="alert('Leave a message feature coming soon.')">
-                    Leave a Message
-                </button>
-            </div>
-        </div>
-
-        <div class="back-wrapper">
-            <a class="back-link" th:href="@{/}">Back to Home</a>
+        <div class="nurse-info">
+            <div><strong>Name:</strong> <span th:text="${nurse.fullName}">Name</span></div>
+            <div><strong>Email:</strong> <span th:text="${nurse.email}">Email</span></div>
+            <div><strong>Phone:</strong> <span th:text="${nurse.phoneNumber}">Phone</span></div>
+            <div><strong>Department:</strong> <span th:text="${nurse.department}">Department</span></div>
         </div>
     </div>
+
+    <div class="busy-box" th:if="${busy}">
+        <p>
+            This assigned nurse is currently busy.<br>
+            Would you like to leave a message or connect to the next available nurse?
+        </p>
+
+        <div class="button-row">
+            <form th:action="@{/next-available-nurse}" method="post">
+                <input type="hidden" name="firstName" th:value="${firstName}">
+                <input type="hidden" name="lastName" th:value="${lastName}">
+                <input type="hidden" name="dob" th:value="${dob}">
+                <button type="submit" class="primary-btn">
+                    Next Available Nurse
+                </button>
+            </form>
+
+            <form th:action="@{/leave-message}" method="post">
+                <input type="hidden" name="firstName" th:value="${firstName}">
+                <input type="hidden" name="lastName" th:value="${lastName}">
+                <input type="hidden" name="dob" th:value="${dob}">
+                <input type="hidden" name="nurseId" th:value="${nurse.id}">
+                <button type="submit" class="secondary-btn">
+                    Leave a Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="back-wrapper">
+        <a class="back-link" th:href="@{/}">
+            Back to Home
+        </a>
+    </div>
+
+</div>
+
 </body>
 </html>

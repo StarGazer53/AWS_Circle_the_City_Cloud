@@ -52,6 +52,7 @@ public class HomeController
                 "/images/default-nurse.png",
                 false
             ));
+            model.addAttribute("busy", false);
 
             return "immediate-help";
         }
@@ -81,7 +82,11 @@ public class HomeController
     }
 
     @PostMapping("/next-available-nurse")
-    public String nextAvailableNurse(Model model)
+    public String nextAvailableNurse(
+        @RequestParam(value = "firstName", required = false) String firstName,
+        @RequestParam(value = "lastName", required = false) String lastName,
+        @RequestParam(value = "dob", required = false) String dob,
+        Model model)
     {
         Nurse nurse = nurseService.getRandomAvailableNurse();
 
@@ -89,6 +94,9 @@ public class HomeController
         model.addAttribute("subtitle", "Connected to the next available nurse.");
         model.addAttribute("nurse", nurse);
         model.addAttribute("busy", false);
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("dob", dob);
 
         return "immediate-help";
     }
@@ -104,5 +112,41 @@ public class HomeController
         model.addAttribute("busy", false);
 
         return "immediate-help";
+    }
+
+    @PostMapping("/leave-message")
+    public String leaveMessagePage(
+        @RequestParam("firstName") String firstName,
+        @RequestParam("lastName") String lastName,
+        @RequestParam("dob") String dob,
+        @RequestParam("nurseId") Long nurseId,
+        Model model)
+    {
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("dob", dob);
+        model.addAttribute("nurseId", nurseId);
+
+        return "leave-message";
+    }
+
+    @PostMapping("/submit-message")
+    public String submitMessage(
+        @RequestParam("firstName") String firstName,
+        @RequestParam("lastName") String lastName,
+        @RequestParam("dob") String dob,
+        @RequestParam("messageText") String messageText,
+        @RequestParam("nurseId") Long nurseId,
+        Model model)
+    {
+        Nurse nurse = new Nurse();
+        nurse.setId(nurseId);
+
+        nurseService.saveMessageRequest(firstName, lastName, dob, messageText, nurse);
+
+        model.addAttribute("pageTitle", "Message Sent");
+        model.addAttribute("message", "Your message has been saved. A nurse will follow up soon.");
+
+        return "message-confirmation";
     }
 }
